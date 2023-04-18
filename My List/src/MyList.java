@@ -1,7 +1,6 @@
 public class MyList<E> {
     private E[] dataBase;
     private int capacity;
-    private int size;
     private int DEFAULT_CAPACITY = 10;
 
     public MyList() {
@@ -21,8 +20,7 @@ public class MyList<E> {
                 count++;
             }
         }
-        this.size = count;
-        return size;
+        return count;
     }
 
     public int getCapacity() {
@@ -118,7 +116,7 @@ public class MyList<E> {
     }
 
     public MyList<E> subList(int start, int finish) {
-        if (start >= 0 && start < size && finish >= 0 && finish < size) {
+        if (start >= 0 && start < size() && finish >= 0 && finish < size()) {
             MyList<E> sublist = new MyList<>();
 
             for (int i = start; i < finish; i++) {
@@ -128,9 +126,10 @@ public class MyList<E> {
         }
         return null;
     }
-    public boolean contains(E data){
-        for (int i=0;i<size();i++){
-            if (data==dataBase[i])
+
+    public boolean contains(E data) {
+        for (int i = 0; i < size(); i++) {
+            if (data == dataBase[i])
                 return true;
         }
         return false;
