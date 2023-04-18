@@ -1,6 +1,7 @@
 public class MyList<E> {
     private E[] dataBase;
     private int capacity;
+    private int size;
     private int DEFAULT_CAPACITY = 10;
 
     public MyList() {
@@ -14,13 +15,7 @@ public class MyList<E> {
     }
 
     public int size() {
-        int count = 0;
-        for (int i = 0; i < capacity; i++) {
-            if (dataBase[i] != null) {
-                count++;
-            }
-        }
-        return count;
+        return size;
     }
 
     public int getCapacity() {
@@ -37,6 +32,7 @@ public class MyList<E> {
             dataBase = tempData;
         }
         dataBase[size()] = data;
+        size++;
     }
 
     public void setCapacity(int capacity) {
@@ -48,23 +44,19 @@ public class MyList<E> {
     }
 
     public E remove(int index) {
-        if (index >= 0 && index < getCapacity()) {
-            for (int i = index; i < getCapacity(); i++) {
+        if (index >= 0 && index < this.size) {
+            for (int i = index; i < this.size; i++) {
                 if (i < size() - 1) {
                     dataBase[i] = dataBase[i + 1];
-                } else {
-                    dataBase[i] = null;
                 }
             }
-
+            this.size -= 1;
             if (size() * 2 < getCapacity() || size() == getCapacity() / 2) {
                 setCapacity(getCapacity() / 2);
             }
-
         }
         return null;
     }
-
     public void set(int index, E data) {
         if (index >= 0 && index < size()) {
             dataBase[index] = data;
@@ -74,9 +66,11 @@ public class MyList<E> {
     public String toString() {
         String result = "[";
         for (int i = 0; i < size(); i++) {
-            result += dataBase[i];
-            if (i != size() - 1) {
-                result += ",";
+            if (dataBase[i] != null) {
+                result += dataBase[i];
+                if (i != size() - 1) {
+                    result += ",";
+                }
             }
         }
         result += "]";
@@ -119,7 +113,7 @@ public class MyList<E> {
         if (start >= 0 && start < size() && finish >= 0 && finish < size()) {
             MyList<E> sublist = new MyList<>();
 
-            for (int i = start; i < finish; i++) {
+            for (int i = start; i <= finish; i++) {
                 sublist.add(dataBase[i]);
             }
             return sublist;
